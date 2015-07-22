@@ -1,4 +1,4 @@
-# RasPiWeather_004.py
+# RasPiWeather.py
 # write results every minute to a csv file
 import time
 import csv
