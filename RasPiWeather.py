@@ -62,6 +62,7 @@ class Application(Frame):
 			self.idCount_data.set(header.id)
 			
 			newDay = self.todayRoutines()
+			self.yesterdayRoutines(newDay)
 			newMonth = self.monthRoutines()
 			newYear = self.yearRoutines()
 			print 'New Day = ', newDay, '0 = Not a new day and 1 = Is a new day'
@@ -74,7 +75,7 @@ class Application(Frame):
 			self.pressRoutines(inHg, newDay)
 			self.dewPointRoutines(temp, hum, newDay)
 			self.idRoutines(header.id)
-			self.fileRoutines()
+			self.minuteFileRoutines()
 			root.update()
 		
 		self.after(100,self.update) # 100 milliseconds between reads
@@ -155,6 +156,28 @@ class Application(Frame):
 		self.minTempTime_data.set("")
 		self.minTemperatureTime.grid(row=7, column=0, columnspan=2)
 		
+		## yesterday temp max and min
+		self.temperatureLabelY = Label(self, text="Yesterday", font=('DroidSerif', 12, 'bold'), padx=10)
+		self.temperatureLabelY.grid(row=8, column=0, columnspan=2)
+		
+		self.maximumTempLabelY = Label(self, text="Hi Temp:", font=('DroidSerif', 10, 'bold'))
+		self.maximumTempLabelY.grid(row=9, column=0, sticky=E)
+		
+		self.maxTemperatureY = Label(self, textvariable=self.maxTempYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='red')
+		self.maxTemperatureY.grid(row=9, column=1, sticky=W)
+		
+		self.maxTemperatureTimeY = Label(self, textvariable=self.maxTempYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.maxTemperatureTimeY.grid(row=9, column=0, columnspan=2)
+		
+		self.minimumTempLabelY = Label(self, text="Lo Temp:", font=('DroidSerif', 10, 'bold'))
+		self.minimumTempLabelY.grid(row=10, column=0, sticky=E)
+		
+		self.minTemperatureY = Label(self, textvariable=self.minTempYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
+		self.minTemperatureY.grid(row=10, column=1, sticky=W)
+		
+		self.minTemperatureTimeY = Label(self, textvariable=self.minTempYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.minTemperatureTimeY.grid(row=11, column=0, columnspan=2)
+		
 		#hum max and min
 		self.maximumHumLabel = Label(self, text="Hi Hum:", font=('DroidSerif', 12, 'bold'))
 		self.maximumHumLabel.grid(row=4, column=3, sticky=E)
@@ -177,6 +200,28 @@ class Application(Frame):
 		self.minHumidityTime = Label(self, textvariable=self.minHumTime_data, font=('DroidSerif', 12, 'bold'))
 		self.minHumTime_data.set("")
 		self.minHumidityTime.grid(row=7, column=3, columnspan=2)
+		
+		## yesterday hum max and min
+		self.humidityLabelY = Label(self, text="Yesterday", font=('DroidSerif', 12, 'bold'), padx=10)
+		self.humidityLabelY.grid(row=8, column=3, columnspan=2)
+		
+		self.maximumHumLabelY = Label(self, text="Hi Hum:", font=('DroidSerif', 10, 'bold'))
+		self.maximumHumLabelY.grid(row=9, column=3, sticky=E)
+		
+		self.maxHumidityY = Label(self, textvariable=self.maxHumYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='red')
+		self.maxHumidityY.grid(row=9, column=4, sticky=W)
+		
+		self.maxHumidityTimeY = Label(self, textvariable=self.maxHumYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.maxHumidityTimeY.grid(row=9, column=3, columnspan=2)
+		
+		self.minimumHumLabelY = Label(self, text="Lo Hum:", font=('DroidSerif', 10, 'bold'))
+		self.minimumHumLabelY.grid(row=10, column=3, sticky=E)
+		
+		self.minHumidityY = Label(self, textvariable=self.minHumYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
+		self.minHumidityY.grid(row=10, column=4, sticky=W)
+		
+		self.minHumidityTimeY = Label(self, textvariable=self.minHumYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.minHumidityTimeY.grid(row=11, column=3, columnspan=2)
 		
 		#dew point max and min
 		self.maximumDPLabel = Label(self, text="Hi Dew Pt:", font=('DroidSerif', 12, 'bold'))
@@ -201,6 +246,28 @@ class Application(Frame):
 		self.minDPTime_data.set("")
 		self.minDPTime.grid(row=7, column=6, columnspan=2)
 		
+		## yesterday DP max and min
+		self.DPLabelY = Label(self, text="Yesterday", font=('DroidSerif', 12, 'bold'), padx=10)
+		self.DPLabelY.grid(row=8, column=6, columnspan=2)
+		
+		self.maximumDPLabelY = Label(self, text="Hi DP:", font=('DroidSerif', 10, 'bold'))
+		self.maximumDPLabelY.grid(row=9, column=6, sticky=E)
+		
+		self.maxDPY = Label(self, textvariable=self.maxDPYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='red')
+		self.maxDPY.grid(row=9, column=7, sticky=W)
+		
+		self.maxDPTimeY = Label(self, textvariable=self.maxDPYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.maxDPTimeY.grid(row=9, column=6, columnspan=2)
+		
+		self.minimumDPLabelY = Label(self, text="Lo DP:", font=('DroidSerif', 10, 'bold'))
+		self.minimumDPLabelY.grid(row=10, column=6, sticky=E)
+		
+		self.minDPY = Label(self, textvariable=self.minDPYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
+		self.minDPY.grid(row=10, column=7, sticky=W)
+		
+		self.minDPTimeY = Label(self, textvariable=self.minDPYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.minDPTimeY.grid(row=11, column=6, columnspan=2)
+		
 		#heatI max and min
 		self.maximumHeatIndexLabel = Label(self, text="Hi Heat I:", font=('DroidSerif', 12, 'bold'))
 		self.maximumHeatIndexLabel.grid(row=4, column=9, sticky=E)
@@ -223,6 +290,28 @@ class Application(Frame):
 		self.minHeatIndexTime = Label(self, textvariable=self.minHeatIndexTime_data, font=('DroidSerif', 12, 'bold'))
 		self.minHeatIndexTime_data.set("")
 		self.minHeatIndexTime.grid(row=7, column=9, columnspan=2)
+		
+		## yesterday Heat Index max and min
+		self.HeatIndexLabelY = Label(self, text="Yesterday", font=('DroidSerif', 12, 'bold'), padx=10)
+		self.HeatIndexLabelY.grid(row=8, column=9, columnspan=2)
+		
+		self.maximumHeatIndexLabelY = Label(self, text="Hi Heat I:", font=('DroidSerif', 10, 'bold'))
+		self.maximumHeatIndexLabelY.grid(row=9, column=9, sticky=E)
+		
+		self.maxHeatIndexY = Label(self, textvariable=self.maxHeatIndexYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='red')
+		self.maxHeatIndexY.grid(row=9, column=10, sticky=W)
+		
+		self.maxHeatIndexTimeY = Label(self, textvariable=self.maxHeatIndexYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.maxHeatIndexTimeY.grid(row=9, column=9, columnspan=2)
+		
+		self.minimumHeatIndexLabelY = Label(self, text="Lo Heat I:", font=('DroidSerif', 10, 'bold'))
+		self.minimumHeatIndexLabelY.grid(row=10, column=9, sticky=E)
+		
+		self.minHeatIndexY = Label(self, textvariable=self.minHeatIndexYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
+		self.minHeatIndexY.grid(row=10, column=10, sticky=W)
+		
+		self.minHeatIndexTimeY = Label(self, textvariable=self.minHeatIndexYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.minHeatIndexTimeY.grid(row=11, column=10, columnspan=2)
 		
 		#press max and min
 		self.maximumPressLabel = Label(self, text="Hi Press:", font=('DroidSerif', 12, 'bold'))
@@ -247,24 +336,46 @@ class Application(Frame):
 		self.minPressTime_data.set("")
 		self.minPressTime.grid(row=7, column=12, columnspan=2)
 		
+		## yesterday pressure max and min
+		self.PressLabelY = Label(self, text="Yesterday", font=('DroidSerif', 12, 'bold'), padx=10)
+		self.PressLabelY.grid(row=8, column=12, columnspan=2)
+		
+		self.maximumPressLabelY = Label(self, text="Hi Press:", font=('DroidSerif', 10, 'bold'))
+		self.maximumPressLabelY.grid(row=9, column=12, sticky=E)
+		
+		self.maxPressY = Label(self, textvariable=self.maxPressYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='red')
+		self.maxPressY.grid(row=9, column=13, sticky=W)
+		
+		self.maxPressTimeY = Label(self, textvariable=self.maxPressYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.maxPressTimeY.grid(row=9, column=12, columnspan=2)
+		
+		self.minimumPressLabelY = Label(self, text="Lo Press:", font=('DroidSerif', 10, 'bold'))
+		self.minimumPressLabelY.grid(row=10, column=12, sticky=E)
+		
+		self.minPressY = Label(self, textvariable=self.minPressYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
+		self.minPressY.grid(row=10, column=13, sticky=W)
+		
+		self.minPressTimeY = Label(self, textvariable=self.minPressYesterdayTime, font=('DroidSerif', 10, 'bold'))
+		self.minPressTimeY.grid(row=11, column=12, columnspan=2)
+		
 		# packet displays
 		self.idLabel = Label(self, text="Packet ID:", bd=1, relief=SUNKEN)
-		self.idLabel.grid(row=8, column=3, sticky=E)
+		self.idLabel.grid(row=12, column=3, sticky=E)
 		
 		self.counterRawDisplay = Label(self, textvariable = self.idCount_data, bd=1, relief=SUNKEN)
 		self.idCount_data.set("0")
-		self.counterRawDisplay.grid(row=8, column=4, sticky=W)
+		self.counterRawDisplay.grid(row=12, column=4, sticky=W)
 		
 		self.idLostLabel = Label(self, text="Lost Packets:", bd=1, relief=SUNKEN)
-		self.idLostLabel.grid(row=8, column=6, sticky=E)
+		self.idLostLabel.grid(row=12, column=6, sticky=E)
 		
 		self.idLostDisplay = Label(self, textvariable = self.idLost_data, bd=1, relief=SUNKEN)
 		self.idLost_data.set("0")
-		self.idLostDisplay.grid(row=8, column=7, sticky=W)
+		self.idLostDisplay.grid(row=12, column=7, sticky=W)
 		
 		# quit button
 		self.end_program = Button(self, text = "Quit", command = self.quit)
-		self.end_program.grid(row=8, column=9, columnspan=2)
+		self.end_program.grid(row=12, column=9, columnspan=2)
 		
 		# set today variable
 		self.todaySaved.set(0)
@@ -426,6 +537,30 @@ class Application(Frame):
 			self.todaySaved.set(s)
 			return 1
 			
+	def yesterdayRoutines(self, newDay):
+		if newDay == 1:
+			self.maxTempYesterday.set(self.maxTemp_data.get())
+			self.maxTempYesterdayTime.set(self.maxTempTime_data.get())
+			self.minTempYesterday.set(self.minTemp_data.get())
+			self.minTempYesterdayTime.set(self.minTempTime_data.get())
+			self.maxHumYesterday.set(self.maxHum_data.get())
+			self.maxHumYesterdayTime.set(self.maxHumTime_data.get())
+			self.minHumYesterday.set(self.minHum_data.get())
+			self.minHumYesterdayTime.set(self.minHumTime_data.get())
+			self.maxDPYesterday.set(self.maxDP_data.get())
+			self.maxDPYesterdayTime.set(self.maxDPTime_data.get())
+			self.minDPYesterday.set(self.minDP_data.get())
+			self.minDPYesterdayTime.set(self.minDPTime_data.get())
+			self.maxHeatIndexYesterday.set(self.maxHeatIndex_data.get())
+			self.maxHeatIndexYesterdayTime.set(self.maxHeatIndexTime_data.get())
+			self.minHeatIndexYesterday.set(self.minHeatIndex_data.get())
+			self.minHeatIndexYesterdayTime.set(self.minHeatIndexTime_data.get())
+			self.maxPressYesterday.set(self.maxPress_data.get())
+			self.maxPressYesterdayTime.set(self.maxPressTime_data.get())
+			self.minPressYesterday.set(self.minPress_data.get())
+			self.minPressYesterdayTime.set(self.minPressTime_data.get())
+		
+			
 	def monthRoutines(self):
 		format2 = "%m"
 		d = datetime.today()
@@ -454,7 +589,7 @@ class Application(Frame):
 			self.yearSaved.set(yr)
 			return 1
 			
-	def fileRoutines(self):
+	def minuteFileRoutines(self):
 		format1 = "%m-%d-%Y"
 		format2 = "%H:%M"
 		d = datetime.today()
@@ -507,6 +642,22 @@ class Application(Frame):
 		self.maxTempTime_data = StringVar()
 		self.minTemp_data = DoubleVar()
 		self.minTempTime_data = StringVar()
+		self.maxTempYesterday = DoubleVar()
+		self.maxTempYesterdayTime = StringVar()
+		self.minTempYesterday = DoubleVar()
+		self.minTempYesterdayTime = StringVar()
+		self.maxTempMonth = DoubleVar()
+		self.maxTempMonthTime = StringVar()
+		self.minTempMonth = DoubleVar()
+		self.minTempMonthTime = StringVar()
+		self.maxTempYear = DoubleVar()
+		self.maxTempYearTime = StringVar()
+		self.minTempYear = DoubleVar()
+		self.minTempYearTime = StringVar()
+		self.maxTempAll = DoubleVar()
+		self.maxTempAllTime = StringVar()
+		self.minTempAll = DoubleVar()
+		self.minTempAllTime = StringVar()
 		# humidity variables
 		self.hum_data = StringVar()
 		self.nowHum = DoubleVar()
@@ -514,6 +665,22 @@ class Application(Frame):
 		self.maxHumTime_data = StringVar()
 		self.minHum_data = DoubleVar()
 		self.minHumTime_data = StringVar()
+		self.maxHumYesterday = DoubleVar()
+		self.maxHumYesterdayTime = StringVar()
+		self.minHumYesterday = DoubleVar()
+		self.minHumYesterdayTime = StringVar()
+		self.maxHumMonth = DoubleVar()
+		self.maxHumMonthTime = StringVar()
+		self.minHumMonth = DoubleVar()
+		self.minHumMonthTime = StringVar()
+		self.maxHumYear = DoubleVar()
+		self.maxHumYearTime = StringVar()
+		self.minHumYear = DoubleVar()
+		self.minHumYearTime = StringVar()
+		self.maxHumAll = DoubleVar()
+		self.maxHumAllTime = StringVar()
+		self.minHumAll = DoubleVar()
+		self.minHumAllTime = StringVar()
 		# dew point variables
 		self.DP_data = StringVar()
 		self.nowDP = DoubleVar()
@@ -521,6 +688,22 @@ class Application(Frame):
 		self.maxDPTime_data = StringVar()
 		self.minDP_data = DoubleVar()
 		self.minDPTime_data = StringVar()
+		self.maxDPYesterday = DoubleVar()
+		self.maxDPYesterdayTime = StringVar()
+		self.minDPYesterday = DoubleVar()
+		self.minDPYesterdayTime = StringVar()
+		self.maxDPMonth = DoubleVar()
+		self.maxDPMonthTime = StringVar()
+		self.minDPMonth = DoubleVar()
+		self.minDPMonthTime = StringVar()
+		self.maxDPYear = DoubleVar()
+		self.maxDPYearTime = StringVar()
+		self.minDPYear = DoubleVar()
+		self.minDPYearTime = StringVar()
+		self.maxDPAll = DoubleVar()
+		self.maxDPAllTime = StringVar()
+		self.minDPAll = DoubleVar()
+		self.minDPAllTime = StringVar()
 		# heat index variables
 		self.heatIndex_data = StringVar()
 		self.nowHeatIndex = DoubleVar()
@@ -528,6 +711,22 @@ class Application(Frame):
 		self.maxHeatIndexTime_data = StringVar()
 		self.minHeatIndex_data = DoubleVar()
 		self.minHeatIndexTime_data = StringVar()
+		self.maxHeatIndexYesterday = DoubleVar()
+		self.maxHeatIndexYesterdayTime = StringVar()
+		self.minHeatIndexYesterday = DoubleVar()
+		self.minHeatIndexYesterdayTime = StringVar()
+		self.maxHeatIndexMonth = DoubleVar()
+		self.maxHeatIndexMonthTime = StringVar()
+		self.minHeatIndexMonth = DoubleVar()
+		self.minHeatIndexMonthTime = StringVar()
+		self.maxHeatIndexYear = DoubleVar()
+		self.maxHeatIndexYearTime = StringVar()
+		self.minHeatIndexYear = DoubleVar()
+		self.minHeatIndexYearTime = StringVar()
+		self.maxHeatIndexAll = DoubleVar()
+		self.maxHeatIndexAllTime = StringVar()
+		self.minHeatIndexAll = DoubleVar()
+		self.minHeatIndexAllTime = StringVar()
 		# pressure data
 		self.press_data = StringVar()
 		self.nowPress = DoubleVar()
@@ -535,6 +734,22 @@ class Application(Frame):
 		self.maxPressTime_data = StringVar()
 		self.minPress_data = DoubleVar()
 		self.minPressTime_data = StringVar()
+		self.maxPressYesterday = DoubleVar()
+		self.maxPressYesterdayTime = StringVar()
+		self.minPressYesterday = DoubleVar()
+		self.minPressYesterdayTime = StringVar()
+		self.maxPressMonth = DoubleVar()
+		self.maxPressMonthTime = StringVar()
+		self.minPressMonth = DoubleVar()
+		self.minPressMonthTime = StringVar()
+		self.maxPressYear = DoubleVar()
+		self.maxPressYearTime = StringVar()
+		self.minPressYear = DoubleVar()
+		self.minPressYearTime = StringVar()
+		self.maxPressAll = DoubleVar()
+		self.maxPressAllTime = StringVar()
+		self.minPressAll = DoubleVar()
+		self.minPressAllTime = StringVar()
 		# today month year variables
 		self.todayIs = IntVar()
 		self.todaySaved = IntVar()
