@@ -167,16 +167,16 @@ class Application(Frame):
 		self.maxTemperatureY.grid(row=9, column=1, sticky=W)
 		
 		self.maxTemperatureTimeY = Label(self, textvariable=self.maxTempYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.maxTemperatureTimeY.grid(row=9, column=0, columnspan=2)
+		self.maxTemperatureTimeY.grid(row=10, column=0, columnspan=2)
 		
 		self.minimumTempLabelY = Label(self, text="Lo Temp:", font=('DroidSerif', 10, 'bold'))
-		self.minimumTempLabelY.grid(row=10, column=0, sticky=E)
+		self.minimumTempLabelY.grid(row=11, column=0, sticky=E)
 		
 		self.minTemperatureY = Label(self, textvariable=self.minTempYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
-		self.minTemperatureY.grid(row=10, column=1, sticky=W)
+		self.minTemperatureY.grid(row=11, column=1, sticky=W)
 		
 		self.minTemperatureTimeY = Label(self, textvariable=self.minTempYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.minTemperatureTimeY.grid(row=11, column=0, columnspan=2)
+		self.minTemperatureTimeY.grid(row=12, column=0, columnspan=2)
 		
 		#hum max and min
 		self.maximumHumLabel = Label(self, text="Hi Hum:", font=('DroidSerif', 12, 'bold'))
@@ -212,16 +212,16 @@ class Application(Frame):
 		self.maxHumidityY.grid(row=9, column=4, sticky=W)
 		
 		self.maxHumidityTimeY = Label(self, textvariable=self.maxHumYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.maxHumidityTimeY.grid(row=9, column=3, columnspan=2)
+		self.maxHumidityTimeY.grid(row=10, column=3, columnspan=2)
 		
 		self.minimumHumLabelY = Label(self, text="Lo Hum:", font=('DroidSerif', 10, 'bold'))
-		self.minimumHumLabelY.grid(row=10, column=3, sticky=E)
+		self.minimumHumLabelY.grid(row=11, column=3, sticky=E)
 		
 		self.minHumidityY = Label(self, textvariable=self.minHumYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
-		self.minHumidityY.grid(row=10, column=4, sticky=W)
+		self.minHumidityY.grid(row=11, column=4, sticky=W)
 		
 		self.minHumidityTimeY = Label(self, textvariable=self.minHumYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.minHumidityTimeY.grid(row=11, column=3, columnspan=2)
+		self.minHumidityTimeY.grid(row=12, column=3, columnspan=2)
 		
 		#dew point max and min
 		self.maximumDPLabel = Label(self, text="Hi Dew Pt:", font=('DroidSerif', 12, 'bold'))
@@ -257,16 +257,16 @@ class Application(Frame):
 		self.maxDPY.grid(row=9, column=7, sticky=W)
 		
 		self.maxDPTimeY = Label(self, textvariable=self.maxDPYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.maxDPTimeY.grid(row=9, column=6, columnspan=2)
+		self.maxDPTimeY.grid(row=10, column=6, columnspan=2)
 		
 		self.minimumDPLabelY = Label(self, text="Lo DP:", font=('DroidSerif', 10, 'bold'))
-		self.minimumDPLabelY.grid(row=10, column=6, sticky=E)
+		self.minimumDPLabelY.grid(row=11, column=6, sticky=E)
 		
 		self.minDPY = Label(self, textvariable=self.minDPYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
-		self.minDPY.grid(row=10, column=7, sticky=W)
+		self.minDPY.grid(row=11, column=7, sticky=W)
 		
 		self.minDPTimeY = Label(self, textvariable=self.minDPYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.minDPTimeY.grid(row=11, column=6, columnspan=2)
+		self.minDPTimeY.grid(row=12, column=6, columnspan=2)
 		
 		#heatI max and min
 		self.maximumHeatIndexLabel = Label(self, text="Hi Heat I:", font=('DroidSerif', 12, 'bold'))
@@ -302,13 +302,13 @@ class Application(Frame):
 		self.maxHeatIndexY.grid(row=9, column=10, sticky=W)
 		
 		self.maxHeatIndexTimeY = Label(self, textvariable=self.maxHeatIndexYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.maxHeatIndexTimeY.grid(row=9, column=9, columnspan=2)
+		self.maxHeatIndexTimeY.grid(row=10, column=9, columnspan=2)
 		
 		self.minimumHeatIndexLabelY = Label(self, text="Lo Heat I:", font=('DroidSerif', 10, 'bold'))
-		self.minimumHeatIndexLabelY.grid(row=10, column=9, sticky=E)
+		self.minimumHeatIndexLabelY.grid(row=11, column=9, sticky=E)
 		
 		self.minHeatIndexY = Label(self, textvariable=self.minHeatIndexYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
-		self.minHeatIndexY.grid(row=10, column=10, sticky=W)
+		self.minHeatIndexY.grid(row=11, column=10, sticky=W)
 		
 		self.minHeatIndexTimeY = Label(self, textvariable=self.minHeatIndexYesterdayTime, font=('DroidSerif', 10, 'bold'))
 		self.minHeatIndexTimeY.grid(row=11, column=10, columnspan=2)
@@ -347,35 +347,35 @@ class Application(Frame):
 		self.maxPressY.grid(row=9, column=13, sticky=W)
 		
 		self.maxPressTimeY = Label(self, textvariable=self.maxPressYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.maxPressTimeY.grid(row=9, column=12, columnspan=2)
+		self.maxPressTimeY.grid(row=10, column=12, columnspan=2)
 		
 		self.minimumPressLabelY = Label(self, text="Lo Press:", font=('DroidSerif', 10, 'bold'))
-		self.minimumPressLabelY.grid(row=10, column=12, sticky=E)
+		self.minimumPressLabelY.grid(row=11, column=12, sticky=E)
 		
 		self.minPressY = Label(self, textvariable=self.minPressYesterday, font=('DroidSerif', 10, 'bold'), fg='white', bg='blue')
-		self.minPressY.grid(row=10, column=13, sticky=W)
+		self.minPressY.grid(row=11, column=13, sticky=W)
 		
 		self.minPressTimeY = Label(self, textvariable=self.minPressYesterdayTime, font=('DroidSerif', 10, 'bold'))
-		self.minPressTimeY.grid(row=11, column=12, columnspan=2)
+		self.minPressTimeY.grid(row=12, column=12, columnspan=2)
 		
 		# packet displays
 		self.idLabel = Label(self, text="Packet ID:", bd=1, relief=SUNKEN)
-		self.idLabel.grid(row=12, column=3, sticky=E)
+		self.idLabel.grid(row=13, column=3, sticky=E)
 		
 		self.counterRawDisplay = Label(self, textvariable = self.idCount_data, bd=1, relief=SUNKEN)
 		self.idCount_data.set("0")
-		self.counterRawDisplay.grid(row=12, column=4, sticky=W)
+		self.counterRawDisplay.grid(row=13, column=4, sticky=W)
 		
 		self.idLostLabel = Label(self, text="Lost Packets:", bd=1, relief=SUNKEN)
-		self.idLostLabel.grid(row=12, column=6, sticky=E)
+		self.idLostLabel.grid(row=13, column=6, sticky=E)
 		
 		self.idLostDisplay = Label(self, textvariable = self.idLost_data, bd=1, relief=SUNKEN)
 		self.idLost_data.set("0")
-		self.idLostDisplay.grid(row=12, column=7, sticky=W)
+		self.idLostDisplay.grid(row=13, column=7, sticky=W)
 		
 		# quit button
 		self.end_program = Button(self, text = "Quit", command = self.quit)
-		self.end_program.grid(row=12, column=9, columnspan=2)
+		self.end_program.grid(row=13, column=9, columnspan=2)
 		
 		# set today variable
 		self.todaySaved.set(0)
