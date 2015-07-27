@@ -76,9 +76,9 @@ class Application(Frame):
 			self.pressRoutines(inHg, newDay)
 			dPoint = self.dewPointRoutines(temp, hum, newDay)
 			self.idRoutines(header.id)
-			self.mySqlRoutines(temp, hum, dPoint, heatI, inHg)
 			self.minuteFileRoutines()
 			root.update()
+			self.mySqlRoutines(temp, hum, dPoint, heatI, inHg)
 		
 		self.after(100,self.update) # 100 milliseconds between reads
 		
@@ -594,13 +594,10 @@ class Application(Frame):
 			
 	def mySqlRoutines(self, temp, hum, dPoint, heatI, inHg):
 		# mysql setup
-		db = MySQLdb.connect(host="localhost", user="RasPiWeather", passwd="dietdew", db="weather")
-		print "DB = ", db
+		db = MySQLdb.connect(host="localhost", user="RasPiWeather", passwd="password", db="weather")
 		cur = db.cursor()
 		datetimeWrite = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
-		print "datetimeWrite = ", datetimeWrite
 		sql = ("""INSERT INTO weatherLog (datetime, temperature, humidity, dewpoint, heatindex, pressure) VALUES (%s,%s,%s,%s,%s,%s)""", (datetimeWrite, temp, hum, dPoint, heatI, inHg))
-		print "sql = ", sql
 		try:
 			print "Writing to MySql database..."
 			cur.execute(*sql)
