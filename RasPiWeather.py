@@ -9,6 +9,7 @@ import time
 from datetime import datetime
 from time import gmtime, strftime, sleep
 from Tkinter import *
+import MySQLdb
 
 # CE Pin, CSN Pin, SPI Speed
 # Setup for GPIO 22 CE and CE0 CSN for RPi B+ with SPI Speed @ 8Mhz
@@ -73,8 +74,9 @@ class Application(Frame):
 			self.humRoutines(hum, newDay)
 			self.heatIRoutines(heatI, newDay)
 			self.pressRoutines(inHg, newDay)
-			self.dewPointRoutines(temp, hum, newDay)
+			dPoint = self.dewPointRoutines(temp, hum, newDay)
 			self.idRoutines(header.id)
+			self.mySqlRoutines(temp, hum, dPoint, heatI, inHg)
 			self.minuteFileRoutines()
 			root.update()
 		
@@ -507,6 +509,7 @@ class Application(Frame):
 			self.maxDPTime_data.set(s)
 			self.minDP_data.set("%.2f" % f)
 			self.minDPTime_data.set(s)
+		return f
 			
 	# monitors and reports lost packets
 	def idRoutines(self, x):
@@ -588,6 +591,29 @@ class Application(Frame):
 			print "New saved year is ", yr
 			self.yearSaved.set(yr)
 			return 1
+			
+	def mySqlRoutines(self, temp, hum, dPoint, heatI, inHg):
+		# mysql setup
+		db = MySQLdb.connect(host="localhost", user="RasPiWeather", passwd="dietdew", db="weather")
+		print "DB = ", db
+		cur = db.cursor()
+		datetimeWrite = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
+		print "datetimeWrite = ", datetimeWrite
+		sql = ("""INSERT INTO weatherLog (datetime, temperature, humidity, dewpoint, heatindex, pressure) VALUES (%s,%s,%s,%s,%s,%s)""", (datetimeWrite, temp, hum, dPoint, heatI, inHg))
+		print "sql = ", sql
+		try:
+			print "Writing to MySql database..."
+			cur.execute(*sql)
+			db.commit()
+			print "Writing to MySql database complete..."
+			print"----------------------"
+		except:
+			#rollback if error
+			db.rollback()
+			print"Failed to write to MySql database!!!"
+			print"----------------------"
+		cur.close()
+		db.close()
 			
 	def minuteFileRoutines(self):
 		format1 = "%m-%d-%Y"
