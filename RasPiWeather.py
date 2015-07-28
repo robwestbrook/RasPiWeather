@@ -9,7 +9,7 @@ from datetime import datetime
 from time import gmtime, strftime, sleep
 import MySQLdb
 import dbConfig as cfg
-print "Starting..."
+print "Starting..."					# print to terminal
 
 # function to calculate simplified dew point using only temperature and humidity
 # formula from http://pydoc.net/Python/weather/0.9.1/weather.units.temp/
@@ -47,6 +47,7 @@ while 1:
 	while network.available():                             # if there's data on the network
 		header, payload = network.read(16)                 # get network data
 		temp, hum, heatI, inHg = unpack('@ffff', payload)  # unpack data into variables
+		#print results to terminal
 		print 'From Node -> ', oct(header.from_node)       # node data is from
 		print 'To Node -> ', header.to_node                # this node
 		print 'ID ->', header.id                           # packet ID number
@@ -61,6 +62,7 @@ while 1:
 		print '-----------------------'
 		
 		# convert all variables for MySql insertion
+		# convert FLOATS to 2 decimal places
 		dbFromNode = oct(header.from_node)
 		dbPacket = header.id
 		dbTemp = ("%.2f" % temp)
@@ -76,7 +78,7 @@ while 1:
 		cur = db.cursor()
 		
 		# get date and time
-		dbDate = time.strftime("%Y-%m-%d ")
+		dbDate = time.strftime("%Y-%m-%d")
 		dbTime = time.strftime("%H:%M")
 		
 		# construct sql statement
