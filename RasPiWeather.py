@@ -10,6 +10,9 @@ from datetime import datetime
 from time import gmtime, strftime, sleep
 from Tkinter import *
 import MySQLdb
+import dbConfig as cfg
+
+print cfg.mysql['host']
 
 # CE Pin, CSN Pin, SPI Speed
 # Setup for GPIO 22 CE and CE0 CSN for RPi B+ with SPI Speed @ 8Mhz
@@ -594,7 +597,7 @@ class Application(Frame):
 			
 	def mySqlRoutines(self, temp, hum, dPoint, heatI, inHg):
 		# mysql setup
-		db = MySQLdb.connect(host="localhost", user="RasPiWeather", passwd="password", db="weather")
+		db = MySQLdb.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['passwd'], cfg.mysql['db'])
 		cur = db.cursor()
 		datetimeWrite = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
 		sql = ("""INSERT INTO weatherLog (datetime, temperature, humidity, dewpoint, heatindex, pressure) VALUES (%s,%s,%s,%s,%s,%s)""", (datetimeWrite, temp, hum, dPoint, heatI, inHg))
