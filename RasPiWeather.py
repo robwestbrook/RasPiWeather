@@ -101,3 +101,5 @@ while 1:
 		# close mysql connection
 		cur.close()
 		db.close()
+		
+		time.sleep(45)

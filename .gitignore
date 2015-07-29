@@ -1,3 +1,4 @@
 *.csv
 *Config.py
 *Config.pyc
+*.ini
