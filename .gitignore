@@ -2,3 +2,5 @@
 *Config.py
 *Config.pyc
 *.ini
+RasPiWeatherGUI.py
+weather.php
