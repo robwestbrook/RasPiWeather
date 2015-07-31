@@ -1,3 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Westbrook Weather Station</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
 <?php
 /* 	weather.php
 	PHP backend to read data from MySQL database
@@ -109,3 +117,5 @@ Min Temperature Today Time: <?php echo $minTempTime; ?><br />
 <br />
 Max Heat Index Today: <?php echo $maxHI; ?><br />
 Max Heat Index Today Time: <?php echo $maxHITime; ?><br />
+</body>
+</html>
