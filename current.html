@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Westbrook Weather Station</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="scripts/raphael.2.1.0.min.js"></script>
+		<script src="scripts/justgage.js"></script>
+	
+	<style>
+	body {
+		text-align: center;
+		padding: 0px;
+		margin:0px;
+		font-family: Arial;
+		color: #a0a0a0;
+	}
+	
+	/* clearfix */
+	.clear:before,
+	.clear:after {content:""; display:table;}
+	.clear:after {clear:both;}
+	.clear { *zoom:1;}
+	
+	.wrapper {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		margin: 30px;
+		border: 1px solid #cccccc;
+	}
+	
+	#title {
+		font-size: 2em;
+		font-weight: "bold";
+		color: #a0a0a0;
+	}
+	
+	.data {
+		font-size: 1.5em;
+		font-weight: "bold";
+		color: #a0a0a0;
+	}
+	
+	.gauge {
+		display: block;
+		float: left;
+	}
+	
+	#tempGage {
+		width: 100%;
+	}
+	
+	#humGage {
+		width: 100%;
+	}
+	
+	#dewPtGage {
+		width: 100%;
+	}
+	
+	#hiGage {
+		width: 100%;
+	}
+	
+	#pressGage {
+		width: 100%;
+	}
+	
+	.Table {
+		display: table;
+	}
+	
+	.Row {
+		display: table-row;
+	}
+	
+	.Cell {
+		display: table-cell;
+	}
+	
+	.red {
+		color: #ff0000;
+	}
+	
+	.blue {
+		color: #0000ff;
+	}
+	
+	</style>
+		
+	<script type="text/javascript">
+			
+		$(document).ready(function(){
+			var gTemp, gHum, gDewPt, gHeatI, gPress;
+			var tempGage, humGage, dewPtGage, hiGage, pressGage;
+		
+		
+			var tempGage = new JustGage({
+				id: "tempGage",
+				value: 67,
+				min: -10,
+				max: 120,
+				title: "Current Temperature",
+				symbol: "\xB0",
+				decimals: 2,
+				showMinMax: false,
+				relativeGaugeSize: true,
+				customSectors: [{
+					color: "#0000ff",
+					lo: -10,
+					hi: 39
+				},{
+					color: "#ffff00",
+					lo: 40,
+					hi: 84
+				},{
+					color: "#ff0000",
+					lo: 85,
+					hi:120
+				}],
+				counter: true,
+				levelColorsGradient: true
+			});	
+			
+			var humGage = new JustGage({
+				id: "humGage",
+				value: 50,
+				min: 0,
+				max: 100,
+				title: "Current Humidity",
+				symbol: "%",
+				decimals: 2,
+				showMinMax: false,
+				relativeGaugeSize: true,
+				customSectors: [{
+					color: "#0000ff",
+					lo: 0,
+					hi: 49
+				},{
+					color: "#ffff00",
+					lo: 50,
+					hi: 79
+				},{
+					color: "#ff0000",
+					lo: 80,
+					hi: 100
+				}],
+				levelColorsGradient: true
+			});	
+			
+			var dewPtGage = new JustGage({
+				id: "dewPtGage",
+				value: 25,
+				min: 0,
+				max: 100,
+				title: "Current Dew Point",
+				symbol: "\xB0",
+				decimals: 2,
+				showMinMax: false,
+				relativeGaugeSize: true,
+				customSectors: [{
+					color: "#0000ff",
+					lo: 0,
+					hi: 39
+				},{
+					color: "#ffff00",
+					lo: 40,
+					hi: 64
+				},{
+					color: "#ff0000",
+					lo: 65,
+					hi: 100
+				}],
+				levelColorsGradient: true
+			});
+			
+			var hiGage = new JustGage({
+				id: "hiGage",
+				value: 25,
+				min: 0,
+				max: 130,
+				title: "Current Heat Index",
+				symbol: "\xB0",
+				decimals: 2,
+				showMinMax: false,
+				relativeGaugeSize: true,
+				customSectors: [{
+					color: "#0000ff",
+					lo: -10,
+					hi: 74
+				},{
+					color: "#ffff00",
+					lo: 75,
+					hi: 89
+				},{
+					color: "#ff0000",
+					lo: 90,
+					hi: 130
+				}],
+				levelColorsGradient: true
+			});
+			
+			var pressGage = new JustGage({
+				id: "pressGage",
+				value: 25,
+				min: 27,
+				max: 32,
+				title: "Current Pressure",
+				decimals: 2,
+				label: "inHg",
+				showMinMax: false,
+				relativeGaugeSize: true,
+				customSectors: [{
+					color: "#0000ff",
+					lo: 27.00,
+					hi: 29.49
+				},{
+					color: "#ffff00",
+					lo: 29.50,
+					hi: 29.99
+				},{
+					color: "#ff0000",
+					lo: 30,
+					hi: 32
+				}],
+				levelColorsGradient: true
+			});
+			
+			$.getJSON('current.php', function(data) {
+				//alert(data[0].Date);
+				$('#date').html(data[0].Date);
+				$('#time').html(data[0].Time);
+				gTemp = data[0].Temperature;
+				gHum = data[0].Humidity;
+				gDewPt = data[0].DewPoint;
+				gHeatI = data[0].HeatIndex;
+				gPress = data[0].Pressure;
+				$('#packet') .html("Packet ID: " + data[0].PacketID);
+				$('#node').html("Node ID: " + data[0].Node);
+				$('#id').html("Record ID: " + data[0].RecordID);
+				tempGage.refresh(gTemp);
+				humGage.refresh(gHum);
+				dewPtGage.refresh(gDewPt);
+				hiGage.refresh(gHeatI);
+				pressGage.refresh(gPress);
+			});
+			
+			$.getJSON('minMax.php', function(data) {
+				//alert(data[0].Date);
+				$('#maxTemp').html(data[0].maxTemp);
+				$('#maxTempTime').html(data[0].maxTempTime);
+				$('#minTemp').html(data[0].minTemp);
+				$('#minTempTime').html(data[0].minTempTime);
+				$('#maxHum').html(data[0].maxHum);
+				$('#maxHumTime').html(data[0].maxHumTime);
+				$('#minHum').html(data[0].minHum);
+				$('#minHumTime').html(data[0].minHumTime);
+				$('#maxDP').html(data[0].maxDP);
+				$('#maxDPTime').html(data[0].maxDPTime);
+				$('#minDP').html(data[0].minDP);
+				$('#minDPTime').html(data[0].minDPTime);
+				$('#maxHI').html(data[0].maxHI);
+				$('#maxHITime').html(data[0].maxHITime);
+				$('#minHI').html(data[0].minHI);
+				$('#minHITime').html(data[0].minHITime);
+				$('#maxPress').html(data[0].maxPress);
+				$('#maxPressTime').html(data[0].maxPressTime);
+				$('#minPress').html(data[0].minPress);
+				$('#minPressTime').html(data[0].minPressTime);
+			});
+			
+			
+			setInterval(function(){
+				$.getJSON('current.php', function(data) {
+					//alert(data[0].Date);
+					$('#date').html(data[0].Date);
+					$('#time').html(data[0].Time);
+					gTemp = data[0].Temperature;
+					gHum = data[0].Humidity;
+					gDewPt = data[0].DewPoint;
+					gHeatI = data[0].HeatIndex;
+					gPress = data[0].Pressure;
+					$('#packet') .html("Packet ID: " + data[0].PacketID);
+					$('#node').html("Node ID: " + data[0].Node);
+					$('#id').html("Record ID: " + data[0].RecordID);
+					tempGage.refresh(gTemp);
+					humGage.refresh(gHum);
+					dewPtGage.refresh(gDewPt);
+					hiGage.refresh(gHeatI);
+					pressGage.refresh(gPress);
+				});
+				$.getJSON('minMax.php', function(data) {
+					//alert(data[0].Date);
+					$('#maxTemp').html(data[0].maxTemp);
+					$('#maxTempTime').html(data[0].maxTempTime);
+					$('#minTemp').html(data[0].minTemp);
+					$('#minTempTime').html(data[0].minTempTime);
+					$('#maxHum').html(data[0].maxHum);
+					$('#maxHumTime').html(data[0].maxHumTime);
+					$('#minHum').html(data[0].minHum);
+					$('#minHumTime').html(data[0].minHumTime);
+					$('#maxDP').html(data[0].maxDP);
+					$('#maxDPTime').html(data[0].maxDPTime);
+					$('#minDP').html(data[0].minDP);
+					$('#minDPTime').html(data[0].minDPTime);
+					$('#maxHI').html(data[0].maxHI);
+					$('#maxHITime').html(data[0].maxHITime);
+					$('#minHI').html(data[0].minHI);
+					$('#minHITime').html(data[0].minHITime);
+					$('#maxPress').html(data[0].maxPress);
+					$('#maxPressTime').html(data[0].maxPressTime);
+					$('#minPress').html(data[0].minPress);
+					$('#minPressTime').html(data[0].minPressTime);
+				});
+			}, 60000);
+		});	
+	</script>
+	
+</head>
+<body>
+	<div class="wrapper clear">
+		<div id="title">Westbrook Home Weather</div>
+		<div id="date" class="data"></div>
+		<div id="time" class="data"></div>
+		<div class="Table">
+			<div class="Row">
+				<div class="Cell">
+					&nbsp;
+				</div>
+				<div class="Cell">
+					<div id="packet" class="data"></div>
+				</div>
+				<div class="Cell">
+					<div id="node" class="data"></div>
+				</div>
+				<div class="Cell">
+					<div id="id" class="data"></div>
+				</div>
+				<div class="Cell">
+					&nbsp;
+				</div>
+			</div>
+			<div class="Row">
+				<div class="Cell">
+					<div id="tempGage" class="gauge"></div>
+				</div>
+				<div class="Cell">
+					<div id="humGage" class="gauge"></div>
+				</div>
+				<div class="Cell">
+					<div id="dewPtGage" class="gauge"></div>
+				</div>
+				<div class="Cell">
+					<div id="hiGage" class="gauge"></div>
+				</div>
+				<div class="Cell">
+					<div id="pressGage" class="gauge"></div>
+				</div>
+			</div>
+			<div class="Row">
+				<div class="Cell">
+					Today's Hi Temp: 
+					<div id="maxTemp" class="red"></div>
+					at
+					<div id="maxTempTime"></div>
+					<br/>
+					Today's Lo Temp:
+					<div id="minTemp" class="blue"></div>
+					at
+					<div id="minTempTime"></div>
+				</div>
+				<div class="Cell">
+					Today's Hi Hum: 
+					<div id="maxHum" class="red"></div>
+					at
+					<div id="maxHumTime"></div>
+					<br/>
+					Today's Lo Hum:
+					<div id="minHum" class="blue"></div>
+					at
+					<div id="minHumTime"></div>
+				</div>
+				<div class="Cell">
+					Today's Hi Dew Pt: 
+					<div id="maxDP" class="red"></div>
+					at
+					<div id="maxDPTime"></div>
+					<br/>
+					Today's Lo Dew Pt:
+					<div id="minDP" class="blue"></div>
+					at
+					<div id="minDPTime"></div>
+				</div>
+				<div class="Cell">
+					Today's Hi Heat Idx: 
+					<div id="maxHI" class="red"></div>
+					at
+					<div id="maxHITime"></div>
+					<br/>
+					Today's Lo Heat Idx:
+					<div id="minHI" class="blue"></div>
+					at
+					<div id="minHITime"></div>
+				</div>
+				<div class="Cell">
+					Today's Hi Press: 
+					<div id="maxPress" class="red"></div>
+					at
+					<div id="maxPressTime"></div>
+					<br/>
+					Today's Lo Press:
+					<div id="minPress" class="blue"></div>
+					at
+					<div id="minPressTime"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
