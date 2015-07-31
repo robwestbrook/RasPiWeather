@@ -14,9 +14,13 @@ $sql = "SELECT * FROM weatherLog ORDER BY id DESC LIMIT 1";
 
 if($result = mysqli_query($connection, $sql)) {
 	while($row = mysqli_fetch_assoc($result)) {
+		$getDate = strtotime($row['date']);
+		$formattedDate = date("F j Y", $getDate);
+		$getTime = strtotime($row['time']);
+		$formattedTime = date("h:i a", $getTime);
 		$data[] = array(
-		'Date' => $row['date'],
-		'Time' => $row['time'],
+		'Date' => $formattedDate,
+		'Time' => $formattedTime,
 		'Temperature' => $row['temperature'],
 		'Humidity' => $row['humidity'],
 		'DewPoint' => $row['dewpoint'],

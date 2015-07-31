@@ -231,8 +231,7 @@
 			
 			$.getJSON('current.php', function(data) {
 				//alert(data[0].Date);
-				$('#date').html(data[0].Date);
-				$('#time').html(data[0].Time);
+				$('#datetime').html(data[0].Date + " - " + data[0].Time);
 				gTemp = data[0].Temperature;
 				gHum = data[0].Humidity;
 				gDewPt = data[0].DewPoint;
@@ -249,35 +248,22 @@
 			});
 			
 			$.getJSON('minMax.php', function(data) {
-				//alert(data[0].Date);
-				$('#maxTemp').html(data[0].maxTemp);
-				$('#maxTempTime').html(data[0].maxTempTime);
-				$('#minTemp').html(data[0].minTemp);
-				$('#minTempTime').html(data[0].minTempTime);
-				$('#maxHum').html(data[0].maxHum);
-				$('#maxHumTime').html(data[0].maxHumTime);
-				$('#minHum').html(data[0].minHum);
-				$('#minHumTime').html(data[0].minHumTime);
-				$('#maxDP').html(data[0].maxDP);
-				$('#maxDPTime').html(data[0].maxDPTime);
-				$('#minDP').html(data[0].minDP);
-				$('#minDPTime').html(data[0].minDPTime);
-				$('#maxHI').html(data[0].maxHI);
-				$('#maxHITime').html(data[0].maxHITime);
-				$('#minHI').html(data[0].minHI);
-				$('#minHITime').html(data[0].minHITime);
-				$('#maxPress').html(data[0].maxPress);
-				$('#maxPressTime').html(data[0].maxPressTime);
-				$('#minPress').html(data[0].minPress);
-				$('#minPressTime').html(data[0].minPressTime);
+				$('#maxTemp').html(data[0].maxTemp + " at " + data[0].maxTempTime);
+				$('#minTemp').html(data[0].minTemp + " at " + data[0].minTempTime);
+				$('#maxHum').html(data[0].maxHum + " at " + data[0].maxHumTime);
+				$('#minHum').html(data[0].minHum + " at " + data[0].minHumTime);
+				$('#maxDP').html(data[0].maxDP + " at " + data[0].maxDPTime);
+				$('#minDP').html(data[0].minDP + " at " + data[0].minDPTime);
+				$('#maxHI').html(data[0].maxHI + " at " + data[0].maxHITime);
+				$('#minHI').html(data[0].minHI + " at " + data[0].minHITime);
+				$('#maxPress').html(data[0].maxPress + " at " + data[0].maxPressTime);
+				$('#minPress').html(data[0].minPress + " at " + data[0].minPressTime);
 			});
 			
 			
 			setInterval(function(){
 				$.getJSON('current.php', function(data) {
-					//alert(data[0].Date);
-					$('#date').html(data[0].Date);
-					$('#time').html(data[0].Time);
+					$('#datetime').html(data[0].Date + " - " + data[0].Time);
 					gTemp = data[0].Temperature;
 					gHum = data[0].Humidity;
 					gDewPt = data[0].DewPoint;
@@ -293,27 +279,16 @@
 					pressGage.refresh(gPress);
 				});
 				$.getJSON('minMax.php', function(data) {
-					//alert(data[0].Date);
-					$('#maxTemp').html(data[0].maxTemp);
-					$('#maxTempTime').html(data[0].maxTempTime);
-					$('#minTemp').html(data[0].minTemp);
-					$('#minTempTime').html(data[0].minTempTime);
-					$('#maxHum').html(data[0].maxHum);
-					$('#maxHumTime').html(data[0].maxHumTime);
-					$('#minHum').html(data[0].minHum);
-					$('#minHumTime').html(data[0].minHumTime);
-					$('#maxDP').html(data[0].maxDP);
-					$('#maxDPTime').html(data[0].maxDPTime);
-					$('#minDP').html(data[0].minDP);
-					$('#minDPTime').html(data[0].minDPTime);
-					$('#maxHI').html(data[0].maxHI);
-					$('#maxHITime').html(data[0].maxHITime);
-					$('#minHI').html(data[0].minHI);
-					$('#minHITime').html(data[0].minHITime);
-					$('#maxPress').html(data[0].maxPress);
-					$('#maxPressTime').html(data[0].maxPressTime);
-					$('#minPress').html(data[0].minPress);
-					$('#minPressTime').html(data[0].minPressTime);
+					$('#maxTemp').html(data[0].maxTemp + " at " + data[0].maxTempTime);
+					$('#minTemp').html(data[0].minTemp + " at " + data[0].minTempTime);
+					$('#maxHum').html(data[0].maxHum + " at " + data[0].maxHumTime);
+					$('#minHum').html(data[0].minHum + " at " + data[0].minHumTime);
+					$('#maxDP').html(data[0].maxDP + " at " + data[0].maxDPTime);
+					$('#minDP').html(data[0].minDP + " at " + data[0].minDPTime);
+					$('#maxHI').html(data[0].maxHI + " at " + data[0].maxHITime);
+					$('#minHI').html(data[0].minHI + " at " + data[0].minHITime);
+					$('#maxPress').html(data[0].maxPress + " at " + data[0].maxPressTime);
+					$('#minPress').html(data[0].minPress + " at " + data[0].minPressTime);
 				});
 			}, 60000);
 		});	
@@ -323,8 +298,7 @@
 <body>
 	<div class="wrapper clear">
 		<div id="title">Westbrook Home Weather</div>
-		<div id="date" class="data"></div>
-		<div id="time" class="data"></div>
+		<div id="datetime" class="data"></div>
 		<div class="Table">
 			<div class="Row">
 				<div class="Cell">
@@ -364,56 +338,46 @@
 				<div class="Cell">
 					Today's Hi Temp: 
 					<div id="maxTemp" class="red"></div>
-					at
 					<div id="maxTempTime"></div>
 					<br/>
 					Today's Lo Temp:
 					<div id="minTemp" class="blue"></div>
-					at
 					<div id="minTempTime"></div>
 				</div>
 				<div class="Cell">
 					Today's Hi Hum: 
 					<div id="maxHum" class="red"></div>
-					at
 					<div id="maxHumTime"></div>
 					<br/>
 					Today's Lo Hum:
 					<div id="minHum" class="blue"></div>
-					at
 					<div id="minHumTime"></div>
 				</div>
 				<div class="Cell">
 					Today's Hi Dew Pt: 
 					<div id="maxDP" class="red"></div>
-					at
 					<div id="maxDPTime"></div>
 					<br/>
 					Today's Lo Dew Pt:
 					<div id="minDP" class="blue"></div>
-					at
 					<div id="minDPTime"></div>
 				</div>
 				<div class="Cell">
 					Today's Hi Heat Idx: 
 					<div id="maxHI" class="red"></div>
-					at
 					<div id="maxHITime"></div>
 					<br/>
 					Today's Lo Heat Idx:
 					<div id="minHI" class="blue"></div>
-					at
 					<div id="minHITime"></div>
 				</div>
 				<div class="Cell">
 					Today's Hi Press: 
 					<div id="maxPress" class="red"></div>
-					at
 					<div id="maxPressTime"></div>
 					<br/>
 					Today's Lo Press:
 					<div id="minPress" class="blue"></div>
-					at
 					<div id="minPressTime"></div>
 				</div>
 			</div>

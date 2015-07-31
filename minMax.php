@@ -25,7 +25,9 @@ $sqlTempMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY tem
 if($result = mysqli_query($connection, $sqlTempMax)) {
 	//echo "<h4>Temp max query successful</h4>";
 	while($row = mysqli_fetch_row($result)) {
-		$maxTempTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$maxTempTime = $formattedTime;
 		$maxTemp = $row[2];
 	}	
 } else {
@@ -39,7 +41,9 @@ $sqlTempMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY tem
 if($result = mysqli_query($connection, $sqlTempMin)) {
 	//echo "<h4>Temp min query successful</h4>";
 	while($row = mysqli_fetch_row($result)) {
-		$minTempTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$minTempTime = $formattedTime;
 		$minTemp = $row[2];
 	}	
 } else {
@@ -51,7 +55,9 @@ $sqlHumMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY humi
 
 if($result = mysqli_query($connection, $sqlHumMax)) {
 	while($row = mysqli_fetch_row($result)) {
-		$maxHumTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$maxHumTime = $formattedTime;
 		$maxHum = $row[3];
 	}	
 } else {
@@ -65,7 +71,9 @@ $sqlHumMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY humi
 if($result = mysqli_query($connection, $sqlHumMin)) {
 	//echo "<h4>Temp min query successful</h4>";
 	while($row = mysqli_fetch_row($result)) {
-		$minHumTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$minHumTime = $formattedTime;
 		$minHum = $row[3];
 	}	
 } else {
@@ -77,7 +85,9 @@ $sqlDPMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY dewpo
 
 if($result = mysqli_query($connection, $sqlDPMax)) {
 	while($row = mysqli_fetch_row($result)) {
-		$maxDPTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$maxDPTime = $formattedTime;
 		$maxDP = $row[4];
 	}	
 } else {
@@ -91,7 +101,9 @@ $sqlDPMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY dewpo
 if($result = mysqli_query($connection, $sqlDPMin)) {
 	//echo "<h4>Temp min query successful</h4>";
 	while($row = mysqli_fetch_row($result)) {
-		$minDPTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$minDPTime = $formattedTime;
 		$minDP = $row[4];
 	}	
 } else {
@@ -103,7 +115,9 @@ $sqlHIMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY heati
 
 if($result = mysqli_query($connection, $sqlHIMax)) {
 	while($row = mysqli_fetch_row($result)) {
-		$maxHITime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$maxHITime = $formattedTime;
 		$maxHI = $row[5];
 	}	
 } else {
@@ -117,7 +131,9 @@ $sqlHIMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY heati
 if($result = mysqli_query($connection, $sqlHIMin)) {
 	//echo "<h4>Temp min query successful</h4>";
 	while($row = mysqli_fetch_row($result)) {
-		$minHITime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$minHITime = $formattedTime;
 		$minHI = $row[5];
 	}	
 } else {
@@ -129,7 +145,9 @@ $sqlPressMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY pr
 
 if($result = mysqli_query($connection, $sqlPressMax)) {
 	while($row = mysqli_fetch_row($result)) {
-		$maxPressTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$maxPressTime = $formattedTime;
 		$maxPress = $row[6];
 	}	
 } else {
@@ -143,7 +161,9 @@ $sqlPressMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY pr
 if($result = mysqli_query($connection, $sqlPressMin)) {
 	//echo "<h4>Temp min query successful</h4>";
 	while($row = mysqli_fetch_row($result)) {
-		$minPressTime = $row[1];
+		$getTime = strtotime($row[1]);
+		$formattedTime = date("h:i a", $getTime);
+		$minPressTime = $formattedTime;
 		$minPress = $row[6];
 	}	
 } else {
