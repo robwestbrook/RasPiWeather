@@ -102,4 +102,4 @@ while 1:
 		cur.close()
 		db.close()
 		
-		time.sleep(45)
+	time.sleep(0.1)
