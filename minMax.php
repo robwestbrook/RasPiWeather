@@ -18,157 +18,50 @@ if($current = mysqli_query($connection, $sqlCurrent)) {
 	echo "Current Query failed.";
 }
 
-// get max temp row - use desc to get maximum temp for date
-$sqlTempMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY temperature DESC LIMIT 1";
-//echo "<h4>" . $sqlTempMax . "</h4>";
+list ($maxTemp, $maxTempTime) = dayMax( $currentDate, 'temperature', 2, $connection);
+list ($minTemp, $minTempTime) = dayMin( $currentDate, 'temperature', 2, $connection);
 
-if($result = mysqli_query($connection, $sqlTempMax)) {
-	//echo "<h4>Temp max query successful</h4>";
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$maxTempTime = $formattedTime;
-		$maxTemp = $row[2];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list ($maxHum, $maxHumTime) = dayMax( $currentDate, 'humidity', 3, $connection);
+list ($minHum, $minHumTime) = dayMin( $currentDate, 'humidity', 3, $connection);
 
-// get min temp row - use asc to get minimum temp for date
-$sqlTempMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY temperature ASC LIMIT 1";
-//echo "<h4>" . $sqlTempMax . "</h4>";
+list ($maxDP, $maxDPTime) = dayMax( $currentDate, 'dewpoint', 4, $connection);
+list ($minDP, $minDPTime) = dayMin( $currentDate, 'dewpoint', 4, $connection);
 
-if($result = mysqli_query($connection, $sqlTempMin)) {
-	//echo "<h4>Temp min query successful</h4>";
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$minTempTime = $formattedTime;
-		$minTemp = $row[2];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list ($maxHI, $maxHITime) = dayMax( $currentDate, 'heatindex', 5, $connection);
+list ($minHI, $minHITime) = dayMin( $currentDate, 'heatindex', 5, $connection);
 
-// get max hum row - use desc to get maximum temp for date
-$sqlHumMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY humidity DESC LIMIT 1";
+list ($maxPress, $maxPressTime) = dayMax( $currentDate, 'pressure', 6, $connection);
+list ($minPress, $minPressTime) = dayMin( $currentDate, 'pressure', 6, $connection);
 
-if($result = mysqli_query($connection, $sqlHumMax)) {
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$maxHumTime = $formattedTime;
-		$maxHum = $row[3];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list($monthMaxTempDate, $monthMaxTempTime, $monthMaxTemp) = monthMax('temperature', 2, $connection);
+list($monthMinTempDate, $monthMinTempTime, $monthMinTemp) = monthMin('temperature', 2, $connection);
 
-// get min hum row - use asc to get minimum temp for date
-$sqlHumMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY humidity ASC LIMIT 1";
+list($monthMaxHumDate, $monthMaxHumTime, $monthMaxHum) = monthMax('humidity', 3, $connection);
+list($monthMinHumDate, $monthMinHumTime, $monthMinHum) = monthMin('humidity', 3, $connection);
 
+list($monthMaxDPDate, $monthMaxDPTime, $monthMaxDP) = monthMax('dewpoint', 4, $connection);
+list($monthMinDPDate, $monthMinDPTime, $monthMinDP) = monthMin('dewpoint', 4, $connection);
 
-if($result = mysqli_query($connection, $sqlHumMin)) {
-	//echo "<h4>Temp min query successful</h4>";
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$minHumTime = $formattedTime;
-		$minHum = $row[3];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list($monthMaxHIDate, $monthMaxHITime, $monthMaxHI) = monthMax('heatindex', 5, $connection);
+list($monthMinHIDate, $monthMinHITime, $monthMinHI) = monthMin('heatindex', 5, $connection);
 
-// get max dp row - use desc to get maximum temp for date
-$sqlDPMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY dewpoint DESC LIMIT 1";
+list($monthMaxPressDate, $monthMaxPressTime, $monthMaxPress) = monthMax('pressure', 6, $connection);
+list($monthMinPressDate, $monthMinPressTime, $monthMinPress) = monthMin('pressure', 6, $connection);
 
-if($result = mysqli_query($connection, $sqlDPMax)) {
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$maxDPTime = $formattedTime;
-		$maxDP = $row[4];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list($yearMaxTempDate, $yearMaxTempTime, $yearMaxTemp) = yearMax('temperature', 2, $connection);
+list($yearMinTempDate, $yearMinTempTime, $yearMinTemp) = yearMin('temperature', 2, $connection);
 
-// get min dp row - use asc to get minimum temp for date
-$sqlDPMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY dewpoint ASC LIMIT 1";
+list($yearMaxHumDate, $yearMaxHumTime, $yearMaxHum) = yearMax('humidity', 3, $connection);
+list($yearMinHumDate, $yearMinHumTime, $yearMinHum) = yearMin('humidity', 3, $connection);
 
+list($yearMaxDPDate, $yearMaxDPTime, $yearMaxDP) = yearMax('dewpoint', 4, $connection);
+list($yearMinDPDate, $yearMinDPTime, $yearMinDP) = yearMin('dewpoint', 4, $connection);
 
-if($result = mysqli_query($connection, $sqlDPMin)) {
-	//echo "<h4>Temp min query successful</h4>";
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$minDPTime = $formattedTime;
-		$minDP = $row[4];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list($yearMaxHIDate, $yearMaxHITime, $yearMaxHI) = yearMax('heatindex', 5, $connection);
+list($yearMinHIDate, $yearMinHITime, $yearMinHI) = yearMin('heatindex', 5, $connection);
 
-// get max dp row - use desc to get maximum temp for date
-$sqlHIMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY heatindex DESC LIMIT 1";
-
-if($result = mysqli_query($connection, $sqlHIMax)) {
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$maxHITime = $formattedTime;
-		$maxHI = $row[5];
-	}	
-} else {
-	//echo "Query failed.";
-}
-
-// get min heatI row - use asc to get minimum temp for date
-$sqlHIMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY heatindex ASC LIMIT 1";
-
-
-if($result = mysqli_query($connection, $sqlHIMin)) {
-	//echo "<h4>Temp min query successful</h4>";
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$minHITime = $formattedTime;
-		$minHI = $row[5];
-	}	
-} else {
-	//echo "Query failed.";
-}
-
-// get max dp row - use desc to get maximum temp for date
-$sqlPressMax = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY pressure DESC LIMIT 1";
-
-if($result = mysqli_query($connection, $sqlPressMax)) {
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$maxPressTime = $formattedTime;
-		$maxPress = $row[6];
-	}	
-} else {
-	//echo "Query failed.";
-}
-
-// get min heatI row - use asc to get minimum temp for date
-$sqlPressMin = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY pressure ASC LIMIT 1";
-
-
-if($result = mysqli_query($connection, $sqlPressMin)) {
-	//echo "<h4>Temp min query successful</h4>";
-	while($row = mysqli_fetch_row($result)) {
-		$getTime = strtotime($row[1]);
-		$formattedTime = date("h:i a", $getTime);
-		$minPressTime = $formattedTime;
-		$minPress = $row[6];
-	}	
-} else {
-	//echo "Query failed.";
-}
+list($yearMaxPressDate, $yearMaxPressTime, $yearMaxPress) = yearMax('pressure', 6, $connection);
+list($yearMinPressDate, $yearMinPressTime, $yearMinPress) = yearMin('pressure', 6, $connection);
 
 $data[] = array(
 	'maxTemp' => $maxTemp,
@@ -190,8 +83,166 @@ $data[] = array(
 	'maxPress' => $maxPress,
 	'maxPressTime' => $maxPressTime,
 	'minPress' => $minPress,
-	'minPressTime' => $minPressTime);
+	'minPressTime' => $minPressTime,
+	'monthMaxTempDate' => $monthMaxTempDate,
+	'monthMaxTempTime' => $monthMaxTempTime,
+	'monthMaxTemp' => $monthMaxTemp,
+	'monthMinTempDate' => $monthMinTempDate,
+	'monthMinTempTime' => $monthMinTempTime,
+	'monthMinTemp' => $monthMinTemp,
+	'monthMaxHumDate' => $monthMaxHumDate,
+	'monthMaxHumTime' => $monthMaxHumTime,
+	'monthMaxHum' => $monthMaxHum,
+	'monthMinHumDate' => $monthMinHumDate,
+	'monthMinHumTime' => $monthMinHumTime,
+	'monthMinHum' => $monthMinHum,
+	'monthMaxDPDate' => $monthMaxDPDate,
+	'monthMaxDPTime' => $monthMaxDPTime,
+	'monthMaxDP' => $monthMaxDP,
+	'monthMinDPDate' => $monthMinDPDate,
+	'monthMinDPTime' => $monthMinDPTime,
+	'monthMinDP' => $monthMinDP,
+	'monthMaxHIDate' => $monthMaxHIDate,
+	'monthMaxHITime' => $monthMaxHITime,
+	'monthMaxHI' => $monthMaxHI,
+	'monthMinHIDate' => $monthMinHIDate,
+	'monthMinHITime' => $monthMinHITime,
+	'monthMinHI' => $monthMinHI,
+	'monthMaxPressDate' => $monthMaxPressDate,
+	'monthMaxPressTime' => $monthMaxPressTime,
+	'monthMaxPress' => $monthMaxPress,
+	'monthMinPressDate' => $monthMinPressDate,
+	'monthMinPressTime' => $monthMinPressTime,
+	'monthMinPress' => $monthMinPress,
+	'yearMaxTempDate' => $yearMaxTempDate,
+	'yearMaxTempTime' => $yearMaxTempTime,
+	'yearMaxTemp' => $yearMaxTemp,
+	'yearMinTempDate' => $yearMinTempDate,
+	'yearMinTempTime' => $yearMinTempTime,
+	'yearMinTemp' => $yearMinTemp,
+	'yearMaxHumDate' => $yearMaxHumDate,
+	'yearMaxHumTime' => $yearMaxHumTime,
+	'yearMaxHum' => $yearMaxHum,
+	'yearMinHumDate' => $yearMinHumDate,
+	'yearMinHumTime' => $yearMinHumTime,
+	'yearMinHum' => $yearMinHum,
+	'yearMaxDPDate' => $yearMaxDPDate,
+	'yearMaxDPTime' => $yearMaxDPTime,
+	'yearMaxDP' => $yearMaxDP,
+	'yearMinDPDate' => $yearMinDPDate,
+	'yearMinDPTime' => $yearMinDPTime,
+	'yearMinDP' => $yearMinDP,
+	'yearMaxHIDate' => $yearMaxHIDate,
+	'yearMaxHITime' => $yearMaxHITime,
+	'yearMaxHI' => $yearMaxHI,
+	'yearMinHIDate' => $yearMinHIDate,
+	'yearMinHITime' => $yearMinHITime,
+	'yearMinHI' => $yearMinHI,
+	'yearMaxPressDate' => $yearMaxPressDate,
+	'yearMaxPressTime' => $yearMaxPressTime,
+	'yearMaxPress' => $yearMaxPress,
+	'yearMinPressDate' => $yearMinPressDate,
+	'yearMinPressTime' => $yearMinPressTime,
+	'yearMinPress' => $yearMinPress);
 
 $json = json_encode($data);
 echo $json;
+
+function dayMax( $currentDate, $param, $rowPosition, $connection) {
+	$sql = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY $param DESC LIMIT 1";
+	if($result = mysqli_query($connection, $sql)) {
+		while($row = mysqli_fetch_row($result)) {
+			$getTime = strtotime($row[1]);
+			$formattedTime = date("h:i a", $getTime);
+			$maxTime = $formattedTime;
+			$max = $row[$rowPosition];
+			return array ($max, $maxTime);
+		}	
+	} else {
+		echo "Query failed.";
+	}
+}
+
+function dayMin( $currentDate, $param, $rowPosition, $connection) {
+	$sql = "SELECT * FROM weatherLog WHERE date = '$currentDate' ORDER BY $param ASC LIMIT 1";
+	if($result = mysqli_query($connection, $sql)) {
+		while($row = mysqli_fetch_row($result)) {
+			$getTime = strtotime($row[1]);
+			$formattedTime = date("h:i a", $getTime);
+			$minTime = $formattedTime;
+			$min = $row[$rowPosition];
+			return array ($min, $minTime);
+		}	
+	} else {
+		echo "Query failed.";
+	}
+}
+
+function monthMax( $param, $rowPosition, $connection) {
+	$sql = "SELECT * FROM weatherLog WHERE YEAR(date) = YEAR(now()) AND MONTH(date) = MONTH(now()) ORDER BY $param DESC LIMIT 1";
+
+	if($result = mysqli_query($connection, $sql)) {
+		while($row = mysqli_fetch_row($result)) {
+			$getDate = strtotime($row[0]);
+			$maxDate = date("F j Y", $getDate);
+			$getTime = strtotime($row[1]);
+			$maxTime = date("h:i a", $getTime);
+			$max = $row[$rowPosition];
+			return array ($maxDate, $maxTime, $max);
+		}	
+	} else {
+		echo "Query failed.";
+	}
+}
+
+function monthMin( $param, $rowPosition, $connection) {
+	$sql = "SELECT * FROM weatherLog WHERE YEAR(date) = YEAR(now()) AND MONTH(date) = MONTH(now()) ORDER BY $param ASC LIMIT 1";
+
+	if($result = mysqli_query($connection, $sql)) {
+		while($row = mysqli_fetch_row($result)) {
+			$getDate = strtotime($row[0]);
+			$minDate = date("F j Y", $getDate);
+			$getTime = strtotime($row[1]);
+			$minTime = date("h:i a", $getTime);
+			$min = $row[$rowPosition];
+			return array ($minDate, $minTime, $min);
+		}	
+	} else {
+		echo "Query failed.";
+	}
+}
+
+function yearMax( $param, $rowPosition, $connection) {
+	$sql = "SELECT * FROM weatherLog WHERE YEAR(date) = YEAR(now()) ORDER BY $param DESC LIMIT 1";
+
+	if($result = mysqli_query($connection, $sql)) {
+		while($row = mysqli_fetch_row($result)) {
+			$getDate = strtotime($row[0]);
+			$maxDate = date("F j Y", $getDate);
+			$getTime = strtotime($row[1]);
+			$maxTime = date("h:i a", $getTime);
+			$max = $row[$rowPosition];
+			return array ($maxDate, $maxTime, $max);
+		}	
+	} else {
+		echo "Query failed.";
+	}
+}
+
+function yearMin( $param, $rowPosition, $connection) {
+	$sql = "SELECT * FROM weatherLog WHERE YEAR(date) = YEAR(now()) ORDER BY $param ASC LIMIT 1";
+
+	if($result = mysqli_query($connection, $sql)) {
+		while($row = mysqli_fetch_row($result)) {
+			$getDate = strtotime($row[0]);
+			$minDate = date("F j Y", $getDate);
+			$getTime = strtotime($row[1]);
+			$minTime = date("h:i a", $getTime);
+			$min = $row[$rowPosition];
+			return array ($minDate, $minTime, $min);
+		}	
+	} else {
+		echo "Query failed.";
+	}
+}
 ?>
