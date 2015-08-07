@@ -8,8 +8,13 @@ import time
 from datetime import datetime
 from time import gmtime, strftime, sleep
 import MySQLdb
+import httplib, urllib
+import socket
 import dbConfig as cfg
 print "Starting..."					# print to terminal
+
+# array holding my sparkfun data fields
+fields = ['temperature', 'humidity', 'dewpoint', 'heatindex', 'pressure']
 
 # function to calculate simplified dew point using only temperature and humidity
 # formula from http://pydoc.net/Python/weather/0.9.1/weather.units.temp/
@@ -59,7 +64,6 @@ while 1:
 			
 		dPoint = calcDewPoint(temp, hum)                   # get dew point from function
 		print 'Dew Point -> ', ("%.2f" %dPoint),u'\u00b0'  # dew point to 2 places and degree symbol
-		print '-----------------------'
 		
 		# convert all variables for MySql insertion
 		# convert FLOATS to 2 decimal places
@@ -101,5 +105,30 @@ while 1:
 		# close mysql connection
 		cur.close()
 		db.close()
+		
+		# prepare data for upload to sparkfun
+		# following example found at
+		# https://learn.sparkfun.com/tutorials/pushing-data-to-datasparkfuncom/raspberry-pi-python
+		uploadData = {}
+		uploadData[fields[0]] = dbTemp
+		uploadData[fields[1]] = dbHum
+		uploadData[fields[2]] = dbDewPt
+		uploadData[fields[3]] = dbHeatIndex
+		uploadData[fields[4]] = dbPress
+		params = urllib.urlencode(uploadData)
+		
+		# headers for upload
+		headers = {}
+		headers['Content-Type'] = 'application/x/www/form-urlencoded'
+		headers['Connection'] = 'close'
+		headers['Content-Length'] = len(params)
+		headers['Phant-Private-Key'] = cfg.upload['privateKey']
+		
+		# initiate connection to sparkfun
+		c = httplib.HTTPConnection(cfg.upload['server'])
+		c.request('POST', '/input/' + cfg.upload['publicKey'] + '.txt', params, headers)
+		r = c.getresponse()
+		print r.status, r.reason
+		print "----------------------"
 		
 	time.sleep(0.1)
