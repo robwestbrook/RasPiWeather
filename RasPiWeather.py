@@ -124,11 +124,16 @@ while 1:
 		headers['Content-Length'] = len(params)
 		headers['Phant-Private-Key'] = cfg.upload['privateKey']
 		
-		# initiate connection to sparkfun
-		c = httplib.HTTPConnection(cfg.upload['server'])
-		c.request('POST', '/input/' + cfg.upload['publicKey'] + '.txt', params, headers)
-		r = c.getresponse()
-		print r.status, r.reason
-		print "----------------------"
+		try:
+			# initiate connection to sparkfun
+			c = httplib.HTTPConnection(cfg.upload['server'])
+			c.request('POST', '/input/' + cfg.upload['publicKey'] + '.txt', params, headers)
+			r = c.getresponse()
+			print "Upload to data.sparkfun.com succeeded"
+			print r.status, r.reason
+			print "----------------------"
+		except:
+			print "Upload to data.sparkfun.com failed"
+			print "----------------------"
 		
 	time.sleep(0.1)
