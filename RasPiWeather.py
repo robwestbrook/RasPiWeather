@@ -106,7 +106,7 @@ while 1:
 		cur.close()
 		db.close()
 		
-		# prepare data for upload to sparkfun
+		# prepare data for upload to sparkfun and weatherunderground
 		# following example found at
 		# https://learn.sparkfun.com/tutorials/pushing-data-to-datasparkfuncom/raspberry-pi-python
 		uploadData = {}
@@ -117,7 +117,7 @@ while 1:
 		uploadData[fields[4]] = dbPress
 		params = urllib.urlencode(uploadData)
 		
-		# headers for upload
+		# headers for upload to data.sparkfun.com
 		headers = {}
 		headers['Content-Type'] = 'application/x/www/form-urlencoded'
 		headers['Connection'] = 'close'
@@ -135,5 +135,35 @@ while 1:
 		except:
 			print "Upload to data.sparkfun.com failed"
 			print "----------------------"
+			
+		# prepare data for uploading to wunderground
+		wuPassword = (cfg.wu['password'])
+		wuDate = urllib.quote(str(datetime.utcnow()))
+		wuTemp = str(dbTemp)
+		wuHum = str(dbHum)
+		wuDewPt = str(dbDewPt)
+		wuPress = str(dbPress)
+		wuPath = cfg.wu['updateURL'] + "?ID=" + cfg.wu['ID']
+		wuPath = wuPath + "&PASSWORD=" + wuPassword
+		wuPath = wuPath + "&dateutc=" + wuDate
+		wuPath = wuPath + "&tempf=" + wuTemp
+		wuPath = wuPath + "&humidity=" + wuHum
+		wuPath = wuPath + "&dewptf=" + wuDewPt
+		wuPath = wuPath + "&baromin=" + wuPress
+		wuPath = wuPath + "&softwaretype=RaspberryPi"
+		wuPath = wuPath + "&action=updateraw"
+			
+		try:
+			#initiate connection to wunderground.com
+			w = httplib.HTTPConnection(cfg.wu['server'])
+			w.request('GET', wuPath)
+			wr = w.getresponse()
+			print "Upload to wunderground.com succeeded"
+			print wr.status, wr.reason
+			print "----------------------"
+		except:
+			print "Upload to wunderground.com failed"
+			print "----------------------"
+			
 		
 	time.sleep(0.1)
